@@ -1,0 +1,51 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Quack.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Quack.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico" 
+        Title="Quack"
+        Background="Black">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <!-- Menu -->
+    <DockPanel>
+        <!-- <TextBlock Margin="10, 8"> Quack </TextBlock> -->
+        <Menu DockPanel.Dock="Top" Background="#303030">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New..."/>
+                <MenuItem Header="_Open..." Click="OpenFileButton_Clicked"/>
+                <Separator/>
+                <MenuItem Header="_Save" Click="SaveFileButton_Clicked"/>
+                <MenuItem Header="_Save As..."/>
+                <Separator/>
+                <MenuItem Header="_Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Copy"/>
+                <MenuItem Header="_Paste"/>
+            </MenuItem>
+        </Menu>
+        <TextBlock/>
+
+        <TabControl Margin="0" DockPanel.Dock="Left">
+            <TabItem Header="Code"
+            BorderBrush="White"
+            BorderThickness="1"
+            Margin="3.4,0"
+            Foreground="White">
+                <TextBox x:Name="txtBox"
+                Margin="-9,-2" CornerRadius="0"
+                AcceptsReturn="True" AcceptsTab="True" TextWrapping="NoWrap"/>
+            </TabItem>
+        </TabControl> 
+    </DockPanel>  
+</Window>
