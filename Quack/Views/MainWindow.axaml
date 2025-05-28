@@ -20,12 +20,13 @@
     <DockPanel>
         <!-- <TextBlock Margin="10, 8"> Quack </TextBlock> -->
         <Menu DockPanel.Dock="Top" Background="#303030">
+            <TextBlock> Quack </TextBlock>
             <MenuItem Header="_File">
                 <MenuItem Header="_New..."/>
                 <MenuItem Header="_Open..." Click="OpenFileButton_Clicked"/>
                 <Separator/>
-                <MenuItem Header="_Save" Click="SaveFileButton_Clicked"/>
-                <MenuItem Header="_Save As..."/>
+                <MenuItem Header="_Save"/>
+                <MenuItem Header="_Save As..."  Click="SaveFileButton_Clicked"/>
                 <Separator/>
                 <MenuItem Header="_Exit"/>
             </MenuItem>
@@ -44,7 +45,8 @@
             Foreground="White">
                 <TextBox x:Name="txtBox"
                 Margin="-9,-2" CornerRadius="0"
-                AcceptsReturn="True" AcceptsTab="True" TextWrapping="NoWrap"/>
+                AcceptsReturn="True" AcceptsTab="True" TextWrapping="NoWrap"
+                FontFamily="Inconsolata"/>
             </TabItem>
         </TabControl> 
     </DockPanel>  

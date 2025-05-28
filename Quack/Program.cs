@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Media;
 using System;
 
 namespace Quack;
@@ -16,6 +17,10 @@ sealed class Program
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .ConfigureFonts(FontManager =>
+            {
+                FontManager.AddFontCollection(new FontCollection());
+            })
             .WithInterFont()
             .LogToTrace();
 }
