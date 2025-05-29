@@ -22,7 +22,7 @@
         <Menu DockPanel.Dock="Top" Background="#303030">
             <TextBlock> Quack </TextBlock>
             <MenuItem Header="_File">
-                <MenuItem Header="_New..."/>
+                <MenuItem Header="_New..." Click="NewFileButton_Clicked"/>
                 <MenuItem Header="_Open..." Click="OpenFileButton_Clicked"/>
                 <Separator/>
                 <MenuItem Header="_Save"/>
@@ -37,8 +37,8 @@
         </Menu>
         <TextBlock/>
 
-        <TabControl Margin="0" DockPanel.Dock="Left">
-            <TabItem Header="Code"
+        <TabControl Margin="0" DockPanel.Dock="Left" x:Name="editors">
+            <!-- <TabItem Header="Code"
             BorderBrush="White"
             BorderThickness="1"
             Margin="3.4,0"
@@ -47,7 +47,7 @@
                 Margin="-9,-2" CornerRadius="0"
                 AcceptsReturn="True" AcceptsTab="True" TextWrapping="NoWrap"
                 FontFamily="Inconsolata"/>
-            </TabItem>
+            </TabItem> -->
         </TabControl> 
     </DockPanel>  
 </Window>
