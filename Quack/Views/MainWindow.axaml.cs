@@ -11,13 +11,26 @@ using Avalonia.Media;
 using System.Reflection.Metadata;
 using System;
 using Avalonia.VisualTree;
+using Avalonia.Controls.ApplicationLifetimes;
 namespace Quack.Views;
 
 public partial class MainWindow : Window
 {
 
-    private TextBox _activeTextBox;
-    private List<TextBox> _textBoxes = new List<TextBox>();
+    struct CODEFILE
+    {
+        public TextBox textBox;
+        public TabItem tab;
+        public string fileName;
+        public string filePath;
+
+        CODEFILE(TextBox box, TabItem tabItem, string name, string path)
+        {
+            textBox = box; tab = tabItem; fileName = name; filePath = path; 
+        }
+    }
+    private CODEFILE _activeCodeFile;
+    private List<CODEFILE> _codefile = new List<CODEFILE>();
 
     public MainWindow()
     {
@@ -40,17 +53,33 @@ public partial class MainWindow : Window
             using var streamReader = new StreamReader(stream);
 
             var fileContent = await streamReader.ReadToEndAsync();
-            
-            TextBox box = OpenTextEditor(files[0].Name);
-            box.SelectAll();
-            _activeTextBox = box;
-            _textBoxes.Add(box);
 
-            _activeTextBox.Text = fileContent;
+            CODEFILE codeFile = OpenTextEditor(files[0].Name, files[0].Path.ToString());
+            // codeFile.textBox.SelectAll();
+            _activeCodeFile = codeFile;
+            _codefile.Add(codeFile);
+
+            _activeCodeFile.textBox.Text = fileContent;
         }
     }
 
     private async void SaveFileButton_Clicked(object sender, RoutedEventArgs e)
+    {
+        var file = await StorageProvider.TryGetFileFromPathAsync(_activeCodeFile.filePath);
+        if (file != null)
+        {
+            await using var stream = await file.OpenWriteAsync();
+            using var streamWriter = new StreamWriter(stream);
+
+            await streamWriter.WriteLineAsync(_activeCodeFile.textBox.Text);
+        }
+        else
+        {
+            SaveAsButton_Clicked(sender, e);
+        }
+    }
+
+    private async void SaveAsButton_Clicked(object sender, RoutedEventArgs e)
     {
         var topLevel = TopLevel.GetTopLevel(this);
 
@@ -67,27 +96,31 @@ public partial class MainWindow : Window
             await using var stream = await file.OpenWriteAsync();
             using var streamWriter = new StreamWriter(stream);
 
-            await streamWriter.WriteLineAsync(_activeTextBox.Text);
+            await streamWriter.WriteLineAsync(_activeCodeFile.textBox.Text);
         }
     }
 
     private void NewFileButton_Clicked(object sender, RoutedEventArgs e)
     {
-        TextBox box = OpenTextEditor("New code");
-        _activeTextBox = box;
-        _activeTextBox.SelectAll();
-        _textBoxes.Add(box);
+        CODEFILE cfile = OpenTextEditor("New code", "");
+        cfile.textBox.SelectAll();
+        _activeCodeFile = cfile;
+        _codefile.Add(cfile);
     }
 
-    private TextBox OpenTextEditor(String tabHeader)
+    private CODEFILE OpenTextEditor(String tabHeader, String path)
     {
+        CODEFILE codeFile = new CODEFILE();
+        codeFile.fileName = tabHeader;
+        codeFile.filePath = path.Substring(7);
         TabItem tab = new TabItem
         {
             Header = tabHeader,
             BorderBrush = new SolidColorBrush(Colors.White),
-            BorderThickness = new Thickness(1),
-            Margin = new Thickness(3.4, 0)
+            BorderThickness = new Thickness(1, 1, 1, 0),
+            Margin = new Thickness(3.4, 0),
         };
+        tab.PointerReleased += delegate { OpenTab(codeFile); };
 
         TextBox editor = new TextBox
         {
@@ -102,6 +135,23 @@ public partial class MainWindow : Window
         editors.Items.Add(tab);
         tab.Content = editor;
 
-        return editor;
+        codeFile.tab = tab;
+        codeFile.textBox = editor;
+
+        return codeFile;
+    }
+
+    private async void ExitButton_Clicked(object sender, RoutedEventArgs e)
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
+        {
+            lifetime.Shutdown();
+        }
+    }
+
+    private void OpenTab(CODEFILE cfile)
+    {
+        cfile.tab.Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
+        _activeCodeFile = cfile;
     }
 }

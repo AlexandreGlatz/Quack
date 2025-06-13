@@ -25,10 +25,10 @@
                 <MenuItem Header="_New..." Click="NewFileButton_Clicked"/>
                 <MenuItem Header="_Open..." Click="OpenFileButton_Clicked"/>
                 <Separator/>
-                <MenuItem Header="_Save"/>
-                <MenuItem Header="_Save As..."  Click="SaveFileButton_Clicked"/>
+                <MenuItem Header="_Save" Click="SaveFileButton_Clicked" />
+                <MenuItem Header="_Save As..."  Click="SaveAsButton_Clicked"/>
                 <Separator/>
-                <MenuItem Header="_Exit"/>
+                <MenuItem Header="_Exit" Click="ExitButton_Clicked"/>
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Copy"/>
