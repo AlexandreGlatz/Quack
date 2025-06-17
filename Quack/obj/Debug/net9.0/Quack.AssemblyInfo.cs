@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Quack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3917f8e6ea3dfae86541c87b43230592900157fb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb70a213c978cd33ca1797eab9dab80a12e59cae")]
 [assembly: System.Reflection.AssemblyProductAttribute("Quack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Quack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

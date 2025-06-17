@@ -61,6 +61,7 @@ public partial class MainWindow : Window
 
             _activeCodeFile.textBox.Text = fileContent;
         }
+        OpenTab(_activeCodeFile);
     }
 
     private async void SaveFileButton_Clicked(object sender, RoutedEventArgs e)
@@ -106,19 +107,23 @@ public partial class MainWindow : Window
         cfile.textBox.SelectAll();
         _activeCodeFile = cfile;
         _codefile.Add(cfile);
+        OpenTab(_activeCodeFile);
     }
 
     private CODEFILE OpenTextEditor(String tabHeader, String path)
     {
         CODEFILE codeFile = new CODEFILE();
         codeFile.fileName = tabHeader;
-        codeFile.filePath = path.Substring(7);
+        if (path != "")
+            codeFile.filePath = path.Substring(7);
+
         TabItem tab = new TabItem
         {
             Header = tabHeader,
             BorderBrush = new SolidColorBrush(Colors.White),
             BorderThickness = new Thickness(1, 1, 1, 0),
             Margin = new Thickness(3.4, 0),
+            FontSize = 16
         };
         tab.PointerReleased += delegate { OpenTab(codeFile); };
 
@@ -129,7 +134,8 @@ public partial class MainWindow : Window
             AcceptsReturn = true,
             AcceptsTab = true,
             TextWrapping = TextWrapping.NoWrap,
-            FontFamily = "Inconsolata"
+            FontFamily = new FontFamily("fonts:Inconsolata#Inconsolata"),
+            FontSize = 24
         };
 
         editors.Items.Add(tab);
@@ -151,7 +157,8 @@ public partial class MainWindow : Window
 
     private void OpenTab(CODEFILE cfile)
     {
-        cfile.tab.Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
+        // cfile.tab.Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
+        cfile.tab.IsSelected = true;
         _activeCodeFile = cfile;
     }
 }

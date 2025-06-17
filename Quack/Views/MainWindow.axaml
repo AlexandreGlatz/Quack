@@ -20,7 +20,7 @@
     <DockPanel>
         <!-- <TextBlock Margin="10, 8"> Quack </TextBlock> -->
         <Menu DockPanel.Dock="Top" Background="#303030">
-            <TextBlock> Quack </TextBlock>
+            <TextBlock>Quack</TextBlock>
             <MenuItem Header="_File">
                 <MenuItem Header="_New..." Click="NewFileButton_Clicked"/>
                 <MenuItem Header="_Open..." Click="OpenFileButton_Clicked"/>
